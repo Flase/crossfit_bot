@@ -26,8 +26,6 @@ services:
     container_name: main_cf_app
     build: .
     restart: always
-    volumes:
-      - cf_app:/code
     networks:
       - my_net
     environment:
@@ -47,4 +45,3 @@ networks:
 volumes:
   mongodb:
   redis:
-  cf_app:
