@@ -40,6 +40,6 @@ services:
       - redis
 
 networks:
-  my_net:
+  network1:
     name: my_net
     external: true
