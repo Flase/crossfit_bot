@@ -139,4 +139,4 @@ def db_update():
 # for v in Athlete.objects(athlete_name='Dima R.'):
 #     print(v.to_json())
 
-disconnect('_test')
+#disconnect('_test')
