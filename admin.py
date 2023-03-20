@@ -9,7 +9,7 @@ from telebot.handler_backends import State, StatesGroup  # States
 from redis import ConnectionPool
 
 from mongoengine import connect
-#from dotenv import load_dotenv
+# from dotenv import load_dotenv
 # load_dotenv(os.environ['PWD'] + '/.env')
 
 import logging
@@ -34,7 +34,7 @@ class MyStates(StatesGroup):
 
 def mongo_crud(data):
     logger.info('Подключаемся к DB')
-    connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
+    # connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
     logger.info('Подключились')
 
     if not Block.objects(block_num=data['Блок №']):

@@ -8,7 +8,7 @@ from mongoengine import Document, StringField, BinaryField, DateTimeField
 # from dotenv import load_dotenv
 # load_dotenv(os.environ['PWD'] + '/.env')
 
-connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
+# connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
 # from dotenv import load_dotenv
 # load_dotenv(os.environ['PWD'] + '/.env')
 
