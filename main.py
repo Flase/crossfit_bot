@@ -15,7 +15,7 @@ from database import db_update
 state_storage = StateRedisStorage(host={os.getenv("REDIS_HOST")}, port={os.getenv("REDIS_PORT")}, db=5)
 bot = telebot.TeleBot(f'{os.getenv("TOKEN")}', state_storage=state_storage)
 
-connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_Radozhitskiy')
+connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
 admin.main(bot)
 mobility_app.main(bot)
