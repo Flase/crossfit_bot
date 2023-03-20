@@ -7,7 +7,7 @@ services:
     volumes:
       - mongodb:/data/db
     networks:
-      my_net:
+      network1:
         - ipv4_address: 172.18.0.7
 
   redis:
@@ -17,7 +17,7 @@ services:
     volumes:
       - redis:/data
     networks:
-      my_net:
+      network1:
         - ipv4_address: 172.18.0.8
     depends_on:
       - mongo
@@ -29,7 +29,7 @@ services:
     volumes:
       - cf_app:/code
     networks:
-      - my_net
+      - network1
     environment:
       - TOKEN=6060195927:AAET9G5KPe81tcUJL_yBs671RGQCmrteMaw
       - MONGO_HOST=172.18.0.7
