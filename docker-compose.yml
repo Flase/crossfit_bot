@@ -43,3 +43,7 @@ networks:
   my_net:
     name: my_net
     external: true
+
+volumes:
+  mongodb:
+  redis:
