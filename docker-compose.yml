@@ -47,3 +47,4 @@ networks:
 volumes:
   mongodb:
   redis:
+  cf_app:
