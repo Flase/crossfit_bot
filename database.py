@@ -5,8 +5,12 @@ from mongoengine import connect, IntField, DictField, ListField, EmbeddedDocumen
 from mongoengine import disconnect
 from mongoengine import Document, StringField, BinaryField, DateTimeField
 
-connect(host=f'mongodb://localhost:27017/Dima_R')
+# from dotenv import load_dotenv
+# load_dotenv(os.environ['PWD'] + '/.env')
 
+connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
+# from dotenv import load_dotenv
+# load_dotenv(os.environ['PWD'] + '/.env')
 
 class Mobility(Document):
     mobility = DictField()
