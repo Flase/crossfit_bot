@@ -1,0 +1,44 @@
+version: "2"
+services:
+  mongo:
+    container_name: mongodb_cf
+    image: mongo
+    restart: always
+    volumes:
+      - mongodb:/data/db
+    networks:
+      my_net:
+        - ipv4_address: 172.18.0.7
+
+  redis:
+    container_name: redis_cf
+    image: redis
+    restart: always
+    volumes:
+      - redis:/data
+    networks:
+      my_net:
+        - ipv4_address: 172.18.0.8
+    depends_on:
+      - mongo
+
+  app:
+    container_name: main_cf_app
+    build: .
+    restart: always
+    volumes:
+      - cf_app:/code
+    networks:
+      - my_net
+    environment:
+      - TOKEN=6060195927:AAET9G5KPe81tcUJL_yBs671RGQCmrteMaw
+      - MONGO_HOST=172.18.0.7
+      - REDIS_HOST=172.18.0.8
+      - REDIS_PORT=6379
+    depends_on:
+      - mongo
+      - redis
+
+networks:
+  my_net:
+    external: true
