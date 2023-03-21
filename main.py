@@ -50,9 +50,9 @@ def message(call):
     main_page(call.message)
 
 
-def main():
-    bot.infinity_polling()
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    while True:
+        try:
+            bot.polling(none_stop=True)
+        except Exception as ex:
+            telebot.logger.error(ex)
