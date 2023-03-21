@@ -50,4 +50,9 @@ def message(call):
     main_page(call.message)
 
 
-bot.polling(none_stop=True, interval=0)
+def main():
+    bot.infinity_polling()
+
+
+if __name__ == "__main__":
+    main()
