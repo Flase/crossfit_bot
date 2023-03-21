@@ -15,7 +15,7 @@ from redis import ConnectionPool
 # load_dotenv(os.environ['PWD'] + '/.env')
 
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', port=int(f'{os.getenv("REDIS_PORT")}'), db=5)
-bot = telebot.TeleBot(f'{os.getenv("TOKEN")}', state_storage=state_storage)
+bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
 
 connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
@@ -53,7 +53,10 @@ def message(call):
 if __name__ == '__main__':
     while True:
         try:
-            # print(f'{os.getenv("TOKEN")}')
+            print(f'{os.getenv("REDIS_HOST")}')
+            print(int(f'{os.getenv("REDIS_PORT")}'))
+            print(f'{os.getenv("TOKEN")}')
+            print(f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
             bot.polling(none_stop=True)
         except Exception as ex:
             telebot.logger.error(ex)
