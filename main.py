@@ -9,6 +9,8 @@ import mobility_app
 import training_app
 from database import db_update
 
+from redis import ConnectionPool
+
 # from dotenv import load_dotenv
 # load_dotenv(os.environ['PWD'] + '/.env')
 
