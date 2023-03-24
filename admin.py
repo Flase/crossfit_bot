@@ -53,20 +53,15 @@ def mongo_crud(data):
     logger.info('Добавили день в блок')
 
 
-    # for v in Block.objects(block_num=data['Блок №']):
-    #     alp = v.to_json()
-    #     alp1 = json.loads(alp)
-
-    # with open('test.json', 'w', encoding='utf8') as file:
-    #     json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
-    #
-
-
 def main(bot):
     @bot.message_handler(commands=['add'])
     def start_ex(message):
         bot.set_state(message.from_user.id, MyStates.block_num, message.chat.id)
         bot.send_message(message.chat.id, 'Номер блока?')
+
+    # @bot.message_handler(commands=['delete'])
+    # def start_del(message):
+
 
     @bot.message_handler(state=MyStates.block_num)
     def name_get(message):

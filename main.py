@@ -31,12 +31,15 @@ def clean_up(chat_id, message_id):
 
 
 def main_page(message):
+    img = open('cf.png', 'rb')
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton(text='🏃‍ разогрев', callback_data='разогрев')
     btn2 = types.InlineKeyboardButton(text='🤸‍мобилити', callback_data='мобилити')
     btn3 = types.InlineKeyboardButton(text='🏋️ тренировка ', callback_data='тренировка')
-    markup.add(btn1, btn2, btn3)
-    bot.send_message(message.chat.id, 'CrossFit', reply_markup=markup)
+    markup.row(btn1)
+    markup.row(btn2)
+    markup.row(btn3)
+    bot.send_photo(message.chat.id, img, reply_markup=markup)
 
 
 @bot.message_handler(commands=['start'])
@@ -53,10 +56,6 @@ def message(call):
 if __name__ == '__main__':
     while True:
         try:
-            print(f'{os.getenv("REDIS_HOST")}')
-            print(int(f'{os.getenv("REDIS_PORT")}'))
-            print(f'{os.getenv("TOKEN")}')
-            print(f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
             bot.polling(none_stop=True)
         except Exception as ex:
             telebot.logger.error(ex)
