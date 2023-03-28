@@ -23,7 +23,7 @@ admin.main(bot)
 mobility_app.main(bot)
 training_app.main(bot)
 
-db_update()
+# db_update()
 
 
 def clean_up(chat_id, message_id):
@@ -40,6 +40,12 @@ def main_page(message):
     markup.row(btn2)
     markup.row(btn3)
     bot.send_photo(message.chat.id, img, reply_markup=markup)
+
+
+@bot.message_handler(commands=['info'])
+def info(message):
+    print(message.from_user)
+    bot.reply_to(message, message.from_user)
 
 
 @bot.message_handler(commands=['start'])

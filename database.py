@@ -5,12 +5,15 @@ from mongoengine import connect, IntField, DictField, ListField, EmbeddedDocumen
 from mongoengine import disconnect
 from mongoengine import Document, StringField, BinaryField, DateTimeField
 
+from dotenv import load_dotenv
+
+# load_dotenv(os.environ['PWD'] + '/.env')
+
+
+# connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 # from dotenv import load_dotenv
 # load_dotenv(os.environ['PWD'] + '/.env')
 
-# connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
-# from dotenv import load_dotenv
-# load_dotenv(os.environ['PWD'] + '/.env')
 
 class Mobility(Document):
     mobility = DictField()
@@ -23,6 +26,7 @@ class WarmingUp(Document):
 class Wod(EmbeddedDocument):
     wod_num = IntField()
     wod = StringField()
+    result = StringField()
 
 
 class Days(EmbeddedDocument):
@@ -34,6 +38,30 @@ class Block(Document):
     block_num = IntField()
     days = ListField(EmbeddedDocumentField(Days))
 
+
+class Results(Document):
+    part = StringField()
+    description = StringField()
+
+#
+# for v in Results.objects():
+#     alp = v.to_json()
+#     alp1 = json.loads(alp)
+#     with open('results.json', 'a', encoding='utf8') as file:
+#         json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
+# #
+#
+# w = Results()
+# for v in Results.objects():
+#     v.delete()
+
+#
+# for v in Results.objects():
+#     alp = v.to_json()
+#     alp1 = json.loads(alp)
+#     with open('results.json', 'a', encoding='utf8') as file:
+#         json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
+#
 
 def db_update():
     wu = WarmingUp()
@@ -139,4 +167,4 @@ def db_update():
 # for v in Athlete.objects(athlete_name='Dima R.'):
 #     print(v.to_json())
 
-#disconnect('_test')
+# disconnect('_test')

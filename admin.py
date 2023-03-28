@@ -53,6 +53,7 @@ def mongo_crud(data):
     logger.info('Добавили день в блок')
 
 
+
 def main(bot):
     @bot.message_handler(commands=['add'])
     def start_ex(message):
@@ -61,7 +62,6 @@ def main(bot):
 
     # @bot.message_handler(commands=['delete'])
     # def start_del(message):
-
 
     @bot.message_handler(state=MyStates.block_num)
     def name_get(message):
