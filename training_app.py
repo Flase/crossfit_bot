@@ -235,6 +235,7 @@ def main(bot):
         markup = types.InlineKeyboardMarkup()
 
         for i in range(1, len(block["days"]) + 1):
+            # if Results.objects(part=)
             markup.add(types.InlineKeyboardButton(text=f'День #{i}',
                                                   callback_data=json.dumps(
                                                       {"Block": [block_number, i]}

@@ -26,7 +26,7 @@ class WarmingUp(Document):
 class Wod(EmbeddedDocument):
     wod_num = IntField()
     wod = StringField()
-    # result = StringField()
+    result = StringField()
 
 
 class Days(EmbeddedDocument):
