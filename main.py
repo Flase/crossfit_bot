@@ -62,6 +62,7 @@ def message(call):
 if __name__ == '__main__':
     while True:
         try:
+            print('some logs')
             bot.polling(none_stop=True)
         except Exception as ex:
             telebot.logger.error(ex)
