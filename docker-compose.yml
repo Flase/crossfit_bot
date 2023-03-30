@@ -33,9 +33,9 @@ services:
       - MONGO_HOST=172.18.0.7
       - REDIS_HOST=172.18.0.8
       - REDIS_PORT=6379
-#    depends_on:
-#      - mongo
-#      - redis
+    depends_on:
+      - mongo
+      - redis
 
 networks:
   my_net:
