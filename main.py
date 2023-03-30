@@ -35,7 +35,7 @@ def main_page(message):
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton(text='🏃‍ разогрев', callback_data='разогрев')
     btn2 = types.InlineKeyboardButton(text='🤸‍мобилити', callback_data='мобилити')
-    btn3 = types.InlineKeyboardButton(text='🏋️ тренировка ', callback_data='тренировка')
+    btn3 = types.InlineKeyboardButton(text='🏋️ тренировка ', callback_data='training')
     markup.row(btn1)
     markup.row(btn2)
     markup.row(btn3)
