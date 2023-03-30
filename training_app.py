@@ -64,7 +64,7 @@ def main(bot):
         print(call.data)
         db_get_part(call.message.chat.id, call.message.message_id, call.message.chat.username, call.data)
 
-    @bot.callback_query_handler(func=lambda call: 'Avalible' in call.data)
+    @bot.callback_query_handler(func=lambda call: 'Available' in call.data)
     def message(call):
         available_blocks_in_db(call)
 
@@ -100,10 +100,13 @@ def main(bot):
         markup = types.InlineKeyboardMarkup()
 
         for i in range(1, 4):
-            markup.row(types.InlineKeyboardButton(text=f'Часть {i}',
-                                                  callback_data=json.dumps(
-                                                      {'Part': [block, day, i]}
-                                                  )))
+            print(Block.objects(block_num=block).first().to_json())
+            if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][i - 1][
+                "wod"] != 'нет':
+                markup.row(types.InlineKeyboardButton(text=f'Часть {i}',
+                                                      callback_data=json.dumps(
+                                                          {'Part': [block, day, i]}
+                                                      )))
 
         for v in Results.objects():
             if f'[{block}, {day},' in v.part and call.message.chat.username == 'flase':
@@ -159,11 +162,11 @@ def main(bot):
         match part:
             case 1:
                 markup.row(
-                    types.InlineKeyboardButton(text='⏪ ВСЕ ЧАСТИ ',
+                    types.InlineKeyboardButton(text=' ВСЕ ЧАСТИ ',
                                                callback_data=json.dumps({
                                                    "Block": [block, day]}
                                                )),
-                    types.InlineKeyboardButton(text=' ВПЕРЕД ⏩',
+                    types.InlineKeyboardButton(text=f' ЧАСТЬ {part + 1} ⏩',
                                                callback_data=json.dumps(
                                                    {'Part': [block, day, part + 1]})
                                                ))
@@ -174,10 +177,10 @@ def main(bot):
 
             case 2:
                 markup.row(
-                    types.InlineKeyboardButton(text='⏪ НАЗАД ',
+                    types.InlineKeyboardButton(text=f'⏪ ЧАСТЬ {part - 1} ',
                                                callback_data=json.dumps(
                                                    {'Part': [block, day, part - 1]})),
-                    types.InlineKeyboardButton(text=' ВПЕРЕД ⏩',
+                    types.InlineKeyboardButton(text=f' ЧАСТЬ {part + 1} ⏩',
                                                callback_data=json.dumps(
                                                    {'Part': [block, day, part + 1]})))
                 try:
@@ -187,10 +190,10 @@ def main(bot):
 
             case 3:
                 markup.row(
-                    types.InlineKeyboardButton(text='⏮️ НАЗАД ',
+                    types.InlineKeyboardButton(text=f'⏪ ЧАСТЬ {part - 1} ',
                                                callback_data=json.dumps(
                                                    {'Part': [block, day, part - 1]})),
-                    types.InlineKeyboardButton(text='🔙 ВСЕ ЧАСТИ ',
+                    types.InlineKeyboardButton(text=' ВСЕ ЧАСТИ ',
                                                callback_data=json.dumps(
                                                    {"Block": [block, day]})))
 
@@ -237,7 +240,7 @@ def main(bot):
                                                       {"Block": [block_number, i]}
                                                   )))
 
-        markup.add(types.InlineKeyboardButton(text='Доступные блоки', callback_data='Avalible_blocks'))
+        markup.add(types.InlineKeyboardButton(text='Доступные блоки', callback_data='Available'))
         markup.add(types.InlineKeyboardButton(text='Домой 🏠', callback_data='Домой'))
 
         bot.send_message(call.message.chat.id, f'Тренеровочный блок #{block_number}',
