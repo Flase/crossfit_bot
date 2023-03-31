@@ -235,8 +235,10 @@ def main(bot):
         markup = types.InlineKeyboardMarkup()
 
         for i in range(1, len(block["days"]) + 1):
-            # if Results.objects(part=)
-            markup.add(types.InlineKeyboardButton(text=f'День #{i}',
+            n = ''
+            if Results.objects(part__contains=f'[{block_number}, {i}').count() > 0:
+                n = '✅'
+            markup.add(types.InlineKeyboardButton(text=f'День #{i} {n}',
                                                   callback_data=json.dumps(
                                                       {"Block": [block_number, i]}
                                                   )))
@@ -244,5 +246,5 @@ def main(bot):
         markup.add(types.InlineKeyboardButton(text='Доступные блоки', callback_data='Available'))
         markup.add(types.InlineKeyboardButton(text='Домой 🏠', callback_data='Домой'))
 
-        bot.send_message(call.message.chat.id, f'Тренеровочный блок #{block_number}',
+        bot.send_message(call.message.chat.id, f'Тренировочная неделя -- {block_number} --',
                          reply_markup=markup, parse_mode='Markdown')
