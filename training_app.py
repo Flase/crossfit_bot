@@ -123,7 +123,7 @@ def main(bot):
                                               })))
 
         bot.send_message(call.message.chat.id,
-                         f' БЛОК #{block}  |  ДЕНЬ #{day}\n',
+                         f' НЕДЕЛЯ #{block}  |  ДЕНЬ #{day}\n',
                          reply_markup=markup, parse_mode='Markdown')
 
     def db_get_part(chat_id, message_id, username, data):
@@ -203,7 +203,7 @@ def main(bot):
                     pass
 
         bot.send_message(chat_id,
-                         f'БЛОК #{block} | ДЕНЬ #{day} | ЧАСТЬ #{part} \n\n {tr_part}',
+                         f'НЕДЕЛЯ #{block} | ДЕНЬ #{day} | ЧАСТЬ #{part} \n\n {tr_part}',
                          reply_markup=markup)
 
     def available_blocks_in_db(call):
@@ -211,12 +211,12 @@ def main(bot):
         markup = types.InlineKeyboardMarkup()
 
         for v in Block.objects():
-            markup.add(types.InlineKeyboardButton(text=f'Блок #{v.block_num}',
+            markup.add(types.InlineKeyboardButton(text=f'НЕДЕЛЯ #{v.block_num}',
                                                   callback_data=json.dumps({
                                                       "Direct_blk": v.block_num})))
 
         markup.add(types.InlineKeyboardButton(text='⏪ назад ', callback_data='training'))
-        bot.send_message(call.message.chat.id, f'Доступные блоки',
+        bot.send_message(call.message.chat.id, f'Доступные недели',
                          reply_markup=markup, parse_mode='Markdown')
 
     def get_block_by_number(call, block_number):
@@ -243,7 +243,7 @@ def main(bot):
                                                       {"Block": [block_number, i]}
                                                   )))
 
-        markup.add(types.InlineKeyboardButton(text='Доступные блоки', callback_data='Available'))
+        markup.add(types.InlineKeyboardButton(text='Доступные недели', callback_data='Available'))
         markup.add(types.InlineKeyboardButton(text='Домой 🏠', callback_data='Домой'))
 
         bot.send_message(call.message.chat.id, f'Тренировочная неделя -- {block_number} --',
