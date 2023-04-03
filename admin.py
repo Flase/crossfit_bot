@@ -8,8 +8,9 @@ from telebot import custom_filters
 from telebot.handler_backends import State, StatesGroup  # States
 from redis import ConnectionPool
 
-from mongoengine import connect
+# from mongoengine import connect
 # from dotenv import load_dotenv
+#
 # load_dotenv(os.environ['PWD'] + '/.env')
 
 import logging
@@ -30,6 +31,7 @@ class MyStates(StatesGroup):
     first_day = State()
     second_day = State()
     third_day = State()
+    del_block = State()
 
 
 def mongo_crud(data):
@@ -53,15 +55,28 @@ def mongo_crud(data):
     logger.info('Добавили день в блок')
 
 
-
 def main(bot):
+
+    @bot.message_handler(commands=['delete'])
+    def start_del(message):
+        bot.set_state(message.from_user.id, MyStates.del_block, message.chat.id)
+        bot.send_message(message.chat.id, 'Номер блока?')
+
+    @bot.message_handler(state=MyStates.del_block)
+    def del_block_from_db(message):
+        with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
+            data['block'] = message.text
+        for v in Block.objects(block_num=int(data['block'])):
+            v.delete()
+            v.save()
+        bot.delete_state(message.from_user.id, message.chat.id)
+        bot.send_message(message.chat.id, f'Неделя № {data["block"]} удалена')
+        bot.delete_message(chat_id=message.chat.id, message_id=message.message_id, timeout=3)
+
     @bot.message_handler(commands=['add'])
     def start_ex(message):
         bot.set_state(message.from_user.id, MyStates.block_num, message.chat.id)
         bot.send_message(message.chat.id, 'Номер блока?')
-
-    # @bot.message_handler(commands=['delete'])
-    # def start_del(message):
 
     @bot.message_handler(state=MyStates.block_num)
     def name_get(message):

@@ -19,6 +19,7 @@ bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage
 
 connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
+
 admin.main(bot)
 mobility_app.main(bot)
 training_app.main(bot)
