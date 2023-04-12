@@ -8,21 +8,26 @@ from telebot import custom_filters
 from telebot.handler_backends import State, StatesGroup  # States
 from redis import ConnectionPool
 
-# from mongoengine import connect
-# from dotenv import load_dotenv
-#
-# load_dotenv(os.environ['PWD'] + '/.env')
-
+from mongoengine import connect
+from dotenv import load_dotenv
 import logging
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logging.basicConfig(filename=f'{__name__}.log',
+                    filemode='w',
+                    format='%(asctime)s %(levelname)s - %(message)s',
+                    level=logging.INFO)
 
-handler = logging.FileHandler(f'{__name__}.log', mode='w')
-formatter = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
+load_dotenv(os.environ['PWD'] + '/.env')
 
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+
+# logging = logging.getlogging(__name__)
+# logging.setLevel(logging.INFO)
+#
+# handler = logging.FileHandler(f'{__name__}.log', mode='w')
+# formatter = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
+#
+# handler.setFormatter(formatter)
+# logging.addHandler(handler)
 
 
 class MyStates(StatesGroup):
@@ -35,32 +40,24 @@ class MyStates(StatesGroup):
 
 
 def mongo_crud(data):
-    logger.info('Подключаемся к DB')
-    # connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/Dima_R')
-    logger.info('Подключились')
-
     if not Block.objects(block_num=data['Блок №']):
         block = Block(block_num=data['Блок №'])
         block.save()
-        logger.info(f'Создали документ Block {data["Блок №"]}')
 
     day = Days(day_num=data['Тренеровочный день №'])
     for i in data['wods']:
         for key, value in i.items():
             workout = Wod(wod_num=key, wod=value)
             day.wods.append(workout)
-    logger.info('Собрали тренеровки в 1 день')
 
     Block.objects(block_num=data['Блок №']).update(push__days=day)
-    logger.info('Добавили день в блок')
 
 
 def main(bot):
-
     @bot.message_handler(commands=['delete'])
     def start_del(message):
         bot.set_state(message.from_user.id, MyStates.del_block, message.chat.id)
-        bot.send_message(message.chat.id, 'Номер блока?')
+        bot.send_message(message.chat.id, 'Номер недели?')
 
     @bot.message_handler(state=MyStates.del_block)
     def del_block_from_db(message):
@@ -137,7 +134,7 @@ def main(bot):
                    f"\t\t{data['Третья часть']}</b>")
             bot.send_message(message.chat.id, msg, parse_mode="html")
 
-            logger.info('Сообщение досталено в телеграм, дальше собираем словарь')
+            logging.info('Сообщение досталено в телеграм, дальше собираем словарь')
 
             db_data = {'Блок №': data['Блок №'],
                        'Тренеровочный день №': data["Тренеровочный день №"],
@@ -148,8 +145,8 @@ def main(bot):
                        ],
                        }
 
-            logger.info('Словарь собран')
-            logger.info(json.dumps(db_data))
+            logging.info('Словарь собран')
+            logging.info(json.dumps(db_data))
 
             try:
                 mongo_crud(db_data)

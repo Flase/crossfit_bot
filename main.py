@@ -11,8 +11,8 @@ from database import db_update
 
 from redis import ConnectionPool
 
-# from dotenv import load_dotenv
-# load_dotenv(os.environ['PWD'] + '/.env')
+from dotenv import load_dotenv
+load_dotenv(os.environ['PWD'] + '/.env')
 
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', port=int(f'{os.getenv("REDIS_PORT")}'), db=5)
 bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
@@ -63,7 +63,7 @@ def message(call):
 if __name__ == '__main__':
     while True:
         try:
-            print('some logs')
             bot.polling(none_stop=True)
         except Exception as ex:
             telebot.logger.error(ex)
+

@@ -24,6 +24,14 @@ def main(bot):
 
     @bot.callback_query_handler(func=lambda call: 'Result' in call.data)
     def message(call):
+        """
+        This function takes a callback query as an argument and checks if the 'Result' string is present in the data.
+        If it is, it cleans up the chat by deleting the message with the callback query and sets the state for the user to MyStates.result,
+        sends a message to the chat and adds the user data, chat ID, callback message ID, and callback data to the bot.
+        This allows the bot to store user data and use it to process further requests.
+        :param call:
+        :return:
+        """
         clean_up(call.message.chat.id, call.message.message_id)
         bot.set_state(user_id=15569244, state=MyStates.result, chat_id=call.message.chat.id)
         bot.send_message(call.message.chat.id, 'Записываем ⤵️')
@@ -61,7 +69,6 @@ def main(bot):
 
     @bot.callback_query_handler(func=lambda call: 'Part' in call.data)
     def message(call):
-        print(call.data)
         db_get_part(call.message.chat.id, call.message.message_id, call.message.chat.username, call.data)
 
     @bot.callback_query_handler(func=lambda call: 'Available' in call.data)
@@ -87,7 +94,7 @@ def main(bot):
                                    v.description + '\n\n'
 
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton(text='НАЗАД',
+        markup.add(types.InlineKeyboardButton(text='⏪ Назад',
                                               callback_data=json.dumps(
                                                   {"Block": [block, day]})))
         bot.send_message(call.message.chat.id, f'{results_from_db}',
@@ -100,9 +107,8 @@ def main(bot):
         markup = types.InlineKeyboardMarkup()
 
         for i in range(1, 4):
-            print(Block.objects(block_num=block).first().to_json())
-            if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][i - 1][
-                "wod"] != 'нет':
+            if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][i - 1]["wod"]\
+                    != 'нет':
                 markup.row(types.InlineKeyboardButton(text=f'Часть {i}',
                                                       callback_data=json.dumps(
                                                           {'Part': [block, day, i]}
@@ -117,7 +123,7 @@ def main(bot):
                 markup.row(btn2)
                 break
 
-        markup.row(types.InlineKeyboardButton(text='⏪ ВСЕ ДНИ 📅',
+        markup.row(types.InlineKeyboardButton(text='⏪ Назад',
                                               callback_data=json.dumps({
                                                   "Direct_blk": block
                                               })))
@@ -151,7 +157,7 @@ def main(bot):
             try:
                 tr_part = json.loads(v.to_json())['days'][day - 1]["wods"][part - 1]["wod"]  # здесь поиск по индексам
             except IndexError as e:
-                print(e)
+                pass
 
         def add_res(usrname, part_res):
             if usrname == 'flase' and not Results.objects(part=part_res):
@@ -161,46 +167,59 @@ def main(bot):
 
         match part:
             case 1:
-                markup.row(
-                    types.InlineKeyboardButton(text=' ВСЕ ЧАСТИ ',
-                                               callback_data=json.dumps({
-                                                   "Block": [block, day]}
-                                               )),
-                    types.InlineKeyboardButton(text=f' ЧАСТЬ {part + 1} ⏩',
-                                               callback_data=json.dumps(
-                                                   {'Part': [block, day, part + 1]})
-                                               ))
+                if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][part]["wod"] \
+                        != 'нет':
+                    markup.add(
+                        types.InlineKeyboardButton(text=f' Часть {part + 1} ⏩',
+                                                   callback_data=json.dumps(
+                                                       {'Part': [block, day, part + 1]})
+                                                   ))
                 try:
                     markup.row(add_res(username, part_results))
                 except ValueError:
                     pass
+                markup.add(
+                    types.InlineKeyboardButton(text='⏪ Доступные части ',
+                                               callback_data=json.dumps({
+                                                   "Block": [block, day]}
+                                               )))
 
             case 2:
                 markup.row(
-                    types.InlineKeyboardButton(text=f'⏪ ЧАСТЬ {part - 1} ',
+                    types.InlineKeyboardButton(text=f'⏪ Часть {part - 1} ',
                                                callback_data=json.dumps(
-                                                   {'Part': [block, day, part - 1]})),
-                    types.InlineKeyboardButton(text=f' ЧАСТЬ {part + 1} ⏩',
-                                               callback_data=json.dumps(
-                                                   {'Part': [block, day, part + 1]})))
+                                                   {'Part': [block, day, part - 1]})))
                 try:
                     markup.row(add_res(username, part_results))
                 except ValueError:
                     pass
+
+                if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][part][
+                    "wod"] != 'нет':
+                    markup.add(
+                        types.InlineKeyboardButton(text=f' Часть {part + 1} ⏩',
+                                                   callback_data=json.dumps(
+                                                       {'Part': [block, day, part + 1]})
+                                                   ))
+                else:
+                    markup.row(
+                        types.InlineKeyboardButton(text='⏪ Доступные части ',
+                                                   callback_data=json.dumps(
+                                                       {"Block": [block, day]})))
 
             case 3:
                 markup.row(
-                    types.InlineKeyboardButton(text=f'⏪ ЧАСТЬ {part - 1} ',
+                    types.InlineKeyboardButton(text=f'⏪ Часть {part - 1} ',
                                                callback_data=json.dumps(
-                                                   {'Part': [block, day, part - 1]})),
-                    types.InlineKeyboardButton(text=' ВСЕ ЧАСТИ ',
-                                               callback_data=json.dumps(
-                                                   {"Block": [block, day]})))
-
+                                                   {'Part': [block, day, part - 1]})))
                 try:
                     markup.row(add_res(username, part_results))
                 except ValueError:
                     pass
+                    markup.row(
+                        types.InlineKeyboardButton(text='⏪ Доступные части ',
+                                                   callback_data=json.dumps(
+                                                       {"Block": [block, day]})))
 
         bot.send_message(chat_id,
                          f'НЕДЕЛЯ #{block} | ДЕНЬ #{day} | ЧАСТЬ #{part} \n\n {tr_part}',
