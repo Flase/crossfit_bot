@@ -27,7 +27,6 @@ bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage
 bot.delete_webhook()
 connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
-add_week()
 
 admin.main(bot)
 mobility_app.main(bot)
