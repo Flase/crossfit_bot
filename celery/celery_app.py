@@ -14,8 +14,8 @@ app.conf.update(
 app.conf.timezone = 'Europe/Moscow'
 app.conf.beat_schedule = {
     'update_tokens': {
-        'task': 'task.new_week',
-        'schedule': crontab(hour=16, minute=25, day_of_week=1),
+        'task': 'tasks.new_week',
+        'schedule': crontab(hour=16, minute=29, day_of_week=1),
         # crontab(hour=7, minute=30, day_of_week=1)
         # 'args': (),
     },
