@@ -9,7 +9,6 @@ import training_app
 from dotenv import load_dotenv
 import logging
 
-from celery.admin_v1 import add_week
 
 logger = logging.getLogger('cf_app')
 logger.setLevel(logging.INFO)
