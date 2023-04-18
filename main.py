@@ -3,28 +3,37 @@ import telebot
 from telebot import types
 from telebot.storage import StateRedisStorage
 from mongoengine import connect
-
 import admin
 import mobility_app
 import training_app
-from database import db_update
+from dotenv import load_dotenv
+import logging
 
-from redis import ConnectionPool
-#
-# from dotenv import load_dotenv
-# load_dotenv(os.environ['PWD'] + '/.env')
+from celery.admin_v1 import add_week
+
+logger = logging.getLogger('cf_app')
+logger.setLevel(logging.INFO)
+
+handler = logging.StreamHandler()
+formatter = logging.Formatter(' %(asctime)s %(levelname)s %(module)s %(message)s')
+
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+load_dotenv(os.environ['PWD'] + '/.env')
 
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', port=int(f'{os.getenv("REDIS_PORT")}'), db=5)
 bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
-
+bot.delete_webhook()
 connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
+add_week()
 
 admin.main(bot)
 mobility_app.main(bot)
 training_app.main(bot)
 
-db_update()
+# db_update()
 
 
 def clean_up(chat_id, message_id):
@@ -66,4 +75,3 @@ if __name__ == '__main__':
             bot.polling(none_stop=True)
         except Exception as ex:
             telebot.logger.error(ex)
-

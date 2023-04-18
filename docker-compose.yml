@@ -22,6 +22,19 @@ services:
     depends_on:
       - mongo
 
+  celery:
+    container_name: celery_app
+    build: ./celery
+    restart: always
+    networks:
+      - my_net
+    environment:
+      - MONGO_HOST=172.18.0.7
+      - REDIS_HOST=172.18.0.8
+      - TZ=Europe/Moscow
+    depends_on:
+      - redis
+
   app:
     container_name: main_cf_app
     build: .

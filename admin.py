@@ -17,7 +17,7 @@ logging.basicConfig(filename=f'{__name__}.log',
                     format='%(asctime)s %(levelname)s - %(message)s',
                     level=logging.INFO)
 
-# load_dotenv(os.environ['PWD'] + '/.env')
+load_dotenv(os.environ['PWD'] + '/.env')
 
 
 # logging = logging.getlogging(__name__)
