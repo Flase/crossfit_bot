@@ -1,9 +1,11 @@
+import asyncio
 import json
 
 from database import Mobility, WarmingUp
 from telebot import types
 from database import Block, Results
 from telebot.handler_backends import State, StatesGroup
+from gs_sheets import add_results_to_gs
 
 
 class MyStates(StatesGroup):
@@ -14,9 +16,12 @@ def add_result_to_db(part, result):
     if not Results.objects(part=part):
         data = Results(part=part, description=result)
         data.save()
+        add_results_to_gs(part, result)
     else:
         pass
 
+
+# part - {"Result": [6, 2, 1]}
 
 def main(bot):
     def clean_up(chat_id, message_id):
@@ -192,7 +197,8 @@ def main(bot):
             case 2:
                 print('we are here')
                 part_fake = 2
-                if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][part - 2]["wod"] != 'НЕТ':
+                if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][part - 2][
+                    "wod"] != 'НЕТ':
                     markup.row(
                         types.InlineKeyboardButton(text=f'⏪ Часть {part_fake - 1} ',
                                                    callback_data=json.dumps(
@@ -218,7 +224,8 @@ def main(bot):
                                                        {"Block": [block, day]})))
 
             case 3:
-                if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][part - 3]["wod"] == 'НЕТ':
+                if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][part - 3][
+                    "wod"] == 'НЕТ':
                     part_fake = 2
                 else:
                     part_fake = 3

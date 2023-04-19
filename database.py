@@ -51,7 +51,7 @@ class Results(Document):
 #         json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
 # #
 #
-# w = Results()
+#
 # for v in Results.objects():
 #     v.delete()
 
@@ -63,38 +63,38 @@ class Results(Document):
 #         json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
 #
 
-def db_update():
-    wu = WarmingUp()
-    mb = Mobility()
-    for v in WarmingUp.objects():
-        v.delete()
-
-    for v in Mobility.objects():
-        v.delete()
-
-    with open("worm_up.json", 'r') as file:
-        data_warmup = json.load(file)
-
-    with open('mobility.json', 'r') as file:
-        data_mobility = json.load(file)
-
-    wu.worm_up = data_warmup
-    wu.save()
-
-    mb.mobility = data_mobility
-    mb.save()
-
-    for v in WarmingUp.objects():
-        alp = v.to_json()
-        alp1 = json.loads(alp)
-        with open('WarmingUP.json', 'w', encoding='utf8') as file:
-            json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
-
-    for v in Mobility.objects():
-        alp = v.to_json()
-        alp1 = json.loads(alp)
-        with open('MobilityUP.json', 'w', encoding='utf8') as file:
-            json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
+# def db_update():
+#     wu = WarmingUp()
+#     mb = Mobility()
+#     for v in WarmingUp.objects():
+#         v.delete()
+#
+#     for v in Mobility.objects():
+#         v.delete()
+#
+#     with open("worm_up.json", 'r') as file:
+#         data_warmup = json.load(file)
+#
+#     with open('mobility.json', 'r') as file:
+#         data_mobility = json.load(file)
+#
+#     wu.worm_up = data_warmup
+#     wu.save()
+#
+#     mb.mobility = data_mobility
+#     mb.save()
+#
+#     for v in WarmingUp.objects():
+#         alp = v.to_json()
+#         alp1 = json.loads(alp)
+#         with open('WarmingUP.json', 'w', encoding='utf8') as file:
+#             json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
+#
+#     for v in Mobility.objects():
+#         alp = v.to_json()
+#         alp1 = json.loads(alp)
+#         with open('MobilityUP.json', 'w', encoding='utf8') as file:
+#             json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
 
 # print(Mobility.objects.first().to_json())
 # print(Mobility.objects.count())

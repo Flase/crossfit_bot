@@ -31,8 +31,6 @@ admin.main(bot)
 mobility_app.main(bot)
 training_app.main(bot)
 
-# db_update()
-
 
 def clean_up(chat_id, message_id):
     bot.delete_message(chat_id, message_id)

@@ -5,9 +5,7 @@ import logging
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-from dotenv import load_dotenv
 
-# load_dotenv(os.environ['PWD'] + '/.env')
 connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
 # Подсоединение к Google Таблицам
