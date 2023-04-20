@@ -19,7 +19,7 @@ formatter = logging.Formatter(' %(asctime)s %(levelname)s %(module)s %(message)s
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-load_dotenv(os.environ['PWD'] + '/.env')
+# load_dotenv(os.environ['PWD'] + '/.env')
 
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', port=int(f'{os.getenv("REDIS_PORT")}'), db=5)
 bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
