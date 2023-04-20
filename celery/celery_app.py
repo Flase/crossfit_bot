@@ -17,7 +17,12 @@ app.conf.beat_schedule = {
         'task': 'tasks.new_week',
         'schedule': crontab(hour=7, minute=30, day_of_week=1),
     },
+    'ask_openai': {
+        'task': 'tasks.openai',
+        'schedule': crontab(hour=16, minute=50, day_of_week=4),
+    }
 }
+
 
 if __name__ == '__main__':
     app.start()

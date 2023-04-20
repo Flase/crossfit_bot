@@ -6,8 +6,10 @@ from mongoengine import disconnect
 from mongoengine import Document, StringField, BinaryField, DateTimeField
 
 from dotenv import load_dotenv
+
+
 #
-# load_dotenv(os.environ['PWD'] + '/.env')
+load_dotenv(os.environ['PWD'] + '/.env')
 
 
 # connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
@@ -43,6 +45,16 @@ class Results(Document):
     part = StringField()
     description = StringField()
 
+
+class Warmup(Document):
+    part = StringField()  # block + day
+    description = StringField()
+
+
+class Stretching(Document):
+    part = StringField()  # block + day
+    description = StringField()
+
 #
 # for v in Results.objects():
 #     alp = v.to_json()
@@ -51,15 +63,21 @@ class Results(Document):
 #         json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
 # #
 #
+# #
+# #
+# #
+# for v in Warmup.objects():
+#     v.delete()
 #
-# for v in Results.objects():
+# for v in Stretching.objects():
 #     v.delete()
 
-#
-# for v in Results.objects():
+# #
+# for v in Stretching.objects():
 #     alp = v.to_json()
 #     alp1 = json.loads(alp)
-#     with open('results.json', 'a', encoding='utf8') as file:
+#     print(alp1)
+#     with open('Stretching.json', 'a', encoding='utf8') as file:
 #         json.dump(fp=file, obj=alp1, indent=4, ensure_ascii=False)
 #
 

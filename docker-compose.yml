@@ -32,6 +32,7 @@ services:
       - MONGO_HOST=172.18.0.7
       - REDIS_HOST=172.18.0.8
       - TZ=Europe/Moscow
+      - OPENAI_API_KEY=
     depends_on:
       - redis
 

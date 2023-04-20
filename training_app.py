@@ -1,7 +1,6 @@
-import asyncio
 import json
 
-from database import Mobility, WarmingUp
+from database import Warmup, Stretching
 from telebot import types
 from database import Block, Results
 from telebot.handler_backends import State, StatesGroup
@@ -91,6 +90,12 @@ def main(bot):
 
     @bot.callback_query_handler(func=lambda call: 'Show' in call.data)
     def message(call):
+        """ This function takes a callback query as an argument and checks if the 'Show' string is present in the data.
+            If it is, it cleans up the chat by deleting the message with the callback query and sends a message to the chat
+            with the results from the database.
+            :param call:
+            :return:
+            """
         clean_up(call.message.chat.id, call.message.message_id)
         results_from_db = ''
         block, day = json.loads(call.data)['Show']
@@ -108,15 +113,60 @@ def main(bot):
         bot.send_message(call.message.chat.id, f'{results_from_db}',
                          reply_markup=markup, parse_mode='Markdown')
 
+    @bot.callback_query_handler(func=lambda call: 'Warmup' in call.data)
+    def message(call):
+        clean_up(call.message.chat.id, call.message.message_id)
+        show_warmup(call)
+
+    def show_warmup(call):
+        block, day = json.loads(call.data)['Warmup']
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton(text='⏪ Назад',
+                                              callback_data=json.dumps(
+                                                  {"Block": [block, day]})))
+
+        try:
+            print(f'{block}{day}')
+            data = json.loads(Warmup.objects(part=f'{block}{day}').first().to_json())["description"]
+            bot.send_message(call.message.chat.id, f'{data}',
+                             reply_markup=markup, parse_mode='Markdown')
+        except KeyError as e:
+            print(e)
+
+    @bot.callback_query_handler(func=lambda call: 'Stretching' in call.data)
+    def message(call):
+        clean_up(call.message.chat.id, call.message.message_id)
+        print('we are here "@bot.callback_query_handler(func=lambda call:Stretching in call.data) "')
+        show_stretching(call)
+
+    def show_stretching(call):
+        block, day = json.loads(call.data)['Stretching']
+        print(f'{block}{day}')
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton(text='⏪ Назад',
+                                              callback_data=json.dumps(
+                                                  {"Block": [block, day]})))
+        try:
+            print(f'{block}{day}')
+            data = json.loads(Stretching.objects(part=f'{block}{day}').first().to_json())["description"]
+            bot.send_message(call.message.chat.id, f'{data}',
+                             reply_markup=markup, parse_mode='Markdown')
+        except KeyError as e:
+            print(e)
+
     def get_parts_from_block_day(call):
         clean_up(call.message.chat.id, call.message.message_id)
         block, day = json.loads(call.data)["Block"]
 
         markup = types.InlineKeyboardMarkup()
         part_fake = 1
+        workout = ''
+
         for i in range(1, 4):
             if json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][i - 1]["wod"] \
                     != 'НЕТ':
+                workout += json.loads(Block.objects(block_num=block).first().to_json())["days"][day - 1]["wods"][i - 1][
+                               'wod'] + '\n\n'
                 markup.row(types.InlineKeyboardButton(text=f'Часть {part_fake}',
                                                       callback_data=json.dumps(
                                                           {'Part': [block, day, i]}
@@ -136,6 +186,10 @@ def main(bot):
                                               callback_data=json.dumps({
                                                   "Direct_blk": block
                                               })))
+        markup.row(
+            types.InlineKeyboardButton(text='Warmup', callback_data=json.dumps({'Warmup': [block, day]})))
+        markup.row(types.InlineKeyboardButton(text='Stretching',
+                                              callback_data=json.dumps({'Stretching': [block, day]})))
 
         bot.send_message(call.message.chat.id,
                          f' НЕДЕЛЯ #{block}  |  ДЕНЬ #{day}\n',

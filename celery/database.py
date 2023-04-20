@@ -1,4 +1,3 @@
-
 from mongoengine import connect, IntField, DictField, ListField, EmbeddedDocumentField, EmbeddedDocument
 from mongoengine import Document, StringField, BinaryField, DateTimeField
 
@@ -21,4 +20,14 @@ class Block(Document):
 
 class Results(Document):
     part = StringField()
+    description = StringField()
+
+
+class Warmup(Document):
+    part = StringField()  # block + day
+    description = StringField()
+
+
+class Stretching(Document):
+    part = StringField()  # block + day
     description = StringField()
