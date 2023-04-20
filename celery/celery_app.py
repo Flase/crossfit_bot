@@ -19,7 +19,7 @@ app.conf.beat_schedule = {
     },
     'ask_openai': {
         'task': 'tasks.openai',
-        'schedule': crontab(hour=16, minute=55, day_of_week=4),
+        'schedule': crontab(hour=16, minute=47, day_of_week=4),
     }
 }
 
