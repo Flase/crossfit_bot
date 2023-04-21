@@ -48,7 +48,7 @@ def get_warmup(parts):
         {'role': 'system', 'content': 'assistant is crossfit coach'},
         {'role': 'user', 'content': f'What muscles will be involved in the workout: \n {parts} \n '
                                     f'Write primary and secondary muscles'
-                                    f'additionally translate it into the exercises and attache to exercises'
+
 
          },
     ]
