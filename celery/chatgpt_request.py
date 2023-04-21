@@ -48,6 +48,11 @@ def get_warmup(parts):
         {'role': 'system', 'content': 'assistant is crossfit coach'},
         {'role': 'user', 'content': f'What muscles will be involved in the workout: \n {parts} \n '
                                     f'Write primary and secondary muscles'
+                                    f'format '
+                                    f'primary muscles: \n'
+                                    f'1. \n 2. \n 3. \n etc'
+                                    f'secondary muscles: \n'
+                                    f'1. \n 2. \n 3. \n etc'
 
 
          },
@@ -69,6 +74,11 @@ def stretching(parts):
         {'role': 'system', 'content': 'assistant is crossfit coach'},
         {'role': 'user', 'content': f'For muscles which will be involved in the workout:: \n {parts} \n , '
                                     f'Write primary and secondary muscles, which will be used for stretching'
+                                    f'format '
+                                    f'primary muscles: \n'
+                                    f'1. \n 2. \n 3. \n etc'
+                                    f'secondary muscles: \n'
+                                    f'1. \n 2. \n 3. \n etc'
 
          }
     ]
