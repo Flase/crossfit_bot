@@ -14,6 +14,13 @@ connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
 
 def fill_the_warmup_and_stretch():
+
+    for v in Warmup.objects():
+        v.delete()
+
+    for v in Stretching.objects():
+        v.delete()
+
     block_number = max([v.block_num for v in Block.objects()])
     for i in range(1, 5):
         day = i
@@ -40,14 +47,16 @@ def fill_the_warmup_and_stretch():
 def get_warmup(parts):
     message = [
         {'role': 'system', 'content': 'assistant is crossfit coach'},
-        {'role': 'user', 'content': f'Какую разминку сделать, чтобы подготовиться к тренеровка:\n {parts} \n '
-                                    f'Подробно опиши как выполнять каждое упражнение.'
-                                    f'Разминка занимает не более 20 минут'
-                                    f'Должна включает в себя, легкое кардио на тренажере, разогревание мышц,'
-                                    f'мобильность и подготовку к тренеровке.'
-                                    f'В разминке использовать  собственный вес,'
-                                    f'резиновые петли, валик для раскатки, GHD тренажер, concept2 rower, concept2 ski,'
+        {'role': 'user', 'content': f'Для тренировки: \n {parts} \n '
+                                    f'Составь программу разминки, не более 20 минут.'
+                                    f'Должна включает в себя, легкое кардио на тренажере, разогревание мышц и суствов,'
+                                    f'мобильность.'
+                                    f'Использовать  собственный вес,'
+                                    f'резиновые петли, валик для раскатки, concept2 rower, concept2 ski,'
                                     f'concept2 bike erg, rogue echo bike'
+                                    f'Подробное описание выполенения упражнений,'
+                                    f'Каждая часть разбира на пункты, каждый пункт описывает одно упраженение,'
+                                    f'в описании есть колличество повторений, колличество подходов,'
 
          },
     ]
