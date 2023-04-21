@@ -46,17 +46,9 @@ def fill_the_warmup_and_stretch():
 def get_warmup(parts):
     message = [
         {'role': 'system', 'content': 'assistant is crossfit coach'},
-        {'role': 'user', 'content': f'Для тренировки: \n {parts} \n '
-                                    f'выдели основные группы мышц, которые будут работать во время тренировки,'
-                                    f'для них составь программу разминки, на 15 минут.'
-                                    f'Должна включает в себя, легкое кардио на тренажере, разогревание мышц и суствов,'
-                                    f'мобильность и динамическую растяжку.'
-                                    f'Использовать  собственный вес,'
-                                    f'резиновые петли, валик для раскатки, concept2 rower, concept2 ski,'
-                                    f'concept2 bike erg, rogue echo bike'
-                                    f'Подробное описание выполенения упражнений,'
-                                    f'Каждая часть разбира на пункты, каждый пункт описывает одно упраженение,'
-                                    f'в описании есть как выполнять, колличество повторений, колличество подходов,'
+        {'role': 'user', 'content': f'What muscles will be involved in the workout: \n {parts} \n '
+                                    f'Write the points from most to least involved muscles, '
+                                    f'additionally translate the points into the exercises and attache to exercises'
 
          },
     ]
