@@ -53,7 +53,8 @@ def get_warmup(parts):
                                     f'1. \n 2. \n 3. \n etc'
                                     f'secondary muscles: \n'
                                     f'1. \n 2. \n 3. \n etc'
-                                    f'show on image where is this muscles in human body'
+                                    f'indicate by different colours and description'
+                                    f' each muscles on schema of human body'
 
 
          },
@@ -80,7 +81,8 @@ def stretching(parts):
                                     f'1. \n 2. \n 3. \n etc'
                                     f'secondary muscles: \n'
                                     f'1. \n 2. \n 3. \n etc'
-                                    f'show on image where is this muscles in human body'
+                                    f'indicate by different colours and description'
+                                    f' each muscles on schema of human body'
 
          }
     ]
