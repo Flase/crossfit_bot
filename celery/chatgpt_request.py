@@ -67,16 +67,9 @@ def get_warmup(parts):
 def stretching(parts):
     message = [
         {'role': 'system', 'content': 'assistant is crossfit coach'},
-        {'role': 'user', 'content': f' Для тренеровки: \n {parts} \n , '
-                                    f'Выдели основые группы мышц которые работали'
-                                    f'создай программу растяжки на 15 минут,   '           
-                                    f'Должна включать в себя, растяжку мышц, растяжку суставов,'
-                                    f'расслабление мышц, расслабление суставов,'
-                                    f'расслабление нервной системы, расслабление мышечной системы.'
-                                    f'Используя упражнения из йоги'
-                                    f'Нужно подробное описание всех приведенных упражнений с обьяснением.'
-                                    f'Каждая часть разбира на пункты, каждый пункт описывает одно упраженение,'
-                                    f'в описании есть как выполнять, колличество повторений, колличество подходов,'
+        {'role': 'user', 'content': f'For muscles which will be involved in the workout:: \n {parts} \n , '
+                                    f'Write the points from most to least involved muscles,'
+                                    f' points will be used for stretching'
          }
     ]
     try:
