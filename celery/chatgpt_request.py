@@ -47,8 +47,8 @@ def get_warmup(parts):
     message = [
         {'role': 'system', 'content': 'assistant is crossfit coach'},
         {'role': 'user', 'content': f'What muscles will be involved in the workout: \n {parts} \n '
-                                    f'Write the points from most to least involved muscles, '
-                                    f'additionally translate the points into the exercises and attache to exercises'
+                                    f'Write primary and secondary muscles'
+                                    f'additionally translate it into the exercises and attache to exercises'
 
          },
     ]
@@ -68,8 +68,8 @@ def stretching(parts):
     message = [
         {'role': 'system', 'content': 'assistant is crossfit coach'},
         {'role': 'user', 'content': f'For muscles which will be involved in the workout:: \n {parts} \n , '
-                                    f'Write the points from most to least involved muscles,'
-                                    f' points will be used for stretching'
+                                    f'Write primary and secondary muscles, which will be used for stretching'
+
          }
     ]
     try:
