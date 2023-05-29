@@ -15,7 +15,7 @@ app.conf.timezone = 'Europe/Moscow'
 app.conf.beat_schedule = {
     'update_tokens': {
         'task': 'tasks.new_week',
-        'schedule': crontab(hour=9, minute=5, day_of_week=1),
+        'schedule': crontab(hour=11, minute=51, day_of_week=1),
     },
     # 'ask_openai': {
     #     'task': 'tasks.openai',
