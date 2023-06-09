@@ -9,6 +9,7 @@ import training_app
 from dotenv import load_dotenv
 import logging
 
+import handlers
 
 logger = logging.getLogger('cf_app')
 logger.setLevel(logging.INFO)
@@ -19,7 +20,7 @@ formatter = logging.Formatter(' %(asctime)s %(levelname)s %(module)s %(message)s
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-# load_dotenv(os.environ['PWD'] + '/.env')
+load_dotenv(os.environ['PWD'] + '/.env')
 
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', port=int(f'{os.getenv("REDIS_PORT")}'), db=5)
 bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
@@ -29,7 +30,7 @@ connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
 admin.main(bot)
 mobility_app.main(bot)
-training_app.main(bot)
+handlers.main(bot)
 
 
 def clean_up(chat_id, message_id):

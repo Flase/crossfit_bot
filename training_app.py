@@ -113,47 +113,6 @@ def main(bot):
         bot.send_message(call.message.chat.id, f'{results_from_db}',
                          reply_markup=markup, parse_mode='Markdown')
 
-    # @bot.callback_query_handler(func=lambda call: 'Warmup' in call.data)
-    # def message(call):
-    #     clean_up(call.message.chat.id, call.message.message_id)
-    #     show_warmup(call)
-
-    # def show_warmup(call):
-    #     block, day = json.loads(call.data)['Warmup']
-    #     markup = types.InlineKeyboardMarkup()
-    #     markup.add(types.InlineKeyboardButton(text='⏪ Назад',
-    #                                           callback_data=json.dumps(
-    #                                               {"Block": [block, day]})))
-    #
-    #     try:
-    #         print(f'{block}{day}')
-    #         data = json.loads(Warmup.objects(part=f'{block}{day}').first().to_json())["description"]
-    #         bot.send_message(call.message.chat.id, f'{data}',
-    #                          reply_markup=markup, parse_mode='Markdown')
-    #     except KeyError as e:
-    #         print(e)
-
-    # @bot.callback_query_handler(func=lambda call: 'Stretching' in call.data)
-    # def message(call):
-    #     clean_up(call.message.chat.id, call.message.message_id)
-    #     print('we are here "@bot.callback_query_handler(func=lambda call:Stretching in call.data) "')
-    #     show_stretching(call)
-    #
-    # def show_stretching(call):
-    #     block, day = json.loads(call.data)['Stretching']
-    #     print(f'{block}{day}')
-    #     markup = types.InlineKeyboardMarkup()
-    #     markup.add(types.InlineKeyboardButton(text='⏪ Назад',
-    #                                           callback_data=json.dumps(
-    #                                               {"Block": [block, day]})))
-    #     try:
-    #         print(f'{block}{day}')
-    #         data = json.loads(Stretching.objects(part=f'{block}{day}').first().to_json())["description"]
-    #         bot.send_message(call.message.chat.id, f'{data}',
-    #                          reply_markup=markup, parse_mode='Markdown')
-    #     except KeyError as e:
-    #         print(e)
-
     def get_parts_from_block_day(call):
         clean_up(call.message.chat.id, call.message.message_id)
         block, day = json.loads(call.data)["Block"]
