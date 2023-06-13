@@ -38,9 +38,9 @@ def add_week():
         db_data = {'Блок №': proga.get('A1')[0][0].split(" ")[1],
                    'Тренеровочный день №': index + 1,
                    'wods': [
-                       {1: proga.get(f'{data}17')[0][0]},
-                       {2: proga.get(f'{data}19')[0][0]},
-                       {3: proga.get(f'{data}22')[0][0]}
+                       {1: proga.get(f'{data}18')[0][0]},
+                       {2: proga.get(f'{data}20')[0][0]},
+                       {3: proga.get(f'{data}23')[0][0]}
                    ],
                    }
         mongo_crud(db_data)
