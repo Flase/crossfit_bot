@@ -145,11 +145,6 @@ def main(bot):
                                               callback_data=json.dumps({
                                                   "Direct_blk": block
                                               })))
-        # markup.row(
-        #     types.InlineKeyboardButton(text='Warmup', callback_data=json.dumps({'Warmup': [block, day]})))
-        # markup.row(types.InlineKeyboardButton(text='Stretching',
-        #                                       callback_data=json.dumps({'Stretching': [block, day]})))
-
         bot.send_message(call.message.chat.id,
                          f' НЕДЕЛЯ #{block}  |  ДЕНЬ #{day}\n',
                          reply_markup=markup, parse_mode='Markdown')
