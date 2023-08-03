@@ -29,7 +29,7 @@ services:
     networks:
       - my_net
     environment:
-      - MONGO_HOST=172.18.0.7
+      - MONGO_HOST=172.18.0.23
       - REDIS_HOST=172.18.0.8
       - TZ=Europe/Moscow
       - OPENAI_API_KEY=
