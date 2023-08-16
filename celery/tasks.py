@@ -8,7 +8,7 @@ def new_week():
     return add_week()
 
 
-@app.task(name='tasks.openai')
-def new_week():
-    return fill_the_warmup_and_stretch()
+# @app.task(name='tasks.openai')
+# def new_week():
+#     return fill_the_warmup_and_stretch()
 

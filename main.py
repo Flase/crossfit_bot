@@ -9,7 +9,6 @@ import training_app
 from dotenv import load_dotenv
 import logging
 
-
 logger = logging.getLogger('cf_app')
 logger.setLevel(logging.INFO)
 
@@ -26,10 +25,7 @@ bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage
 bot.delete_webhook()
 connect(host=f'mongodb://{os.getenv("MONGO_HOST")}:27017/my_db')
 
-
 admin.main(bot)
-mobility_app.main(bot)
-training_app.main(bot)
 
 
 def clean_up(chat_id, message_id):
@@ -39,11 +35,7 @@ def clean_up(chat_id, message_id):
 def main_page(message):
     img = open('cf.png', 'rb')
     markup = types.InlineKeyboardMarkup()
-    btn1 = types.InlineKeyboardButton(text='🏃‍ разогрев', callback_data='разогрев')
-    btn2 = types.InlineKeyboardButton(text='🤸‍мобилити', callback_data='мобилити')
     btn3 = types.InlineKeyboardButton(text='🏋️ тренировка ', callback_data='training')
-    markup.row(btn1)
-    markup.row(btn2)
     markup.row(btn3)
     bot.send_photo(message.chat.id, img, reply_markup=markup)
 
@@ -63,6 +55,10 @@ def start(message):
 def message(call):
     clean_up(call.message.chat.id, call.message.message_id)
     main_page(call.message)
+
+
+
+
 
 
 if __name__ == '__main__':
