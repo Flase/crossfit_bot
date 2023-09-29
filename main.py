@@ -13,7 +13,7 @@ from gs_redis import add_results_to_gs, update
 r = redis.Redis(host=f'{os.getenv("REDIS_HOST")}', db=15, decode_responses=True)
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', db=15)
 bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
-cf = json.loads(r.get('crossfit'))
+
 bot.add_custom_filter(custom_filters.StateFilter(bot))
 
 
@@ -61,7 +61,7 @@ def message(call):
 
 @bot.callback_query_handler(func=lambda call: 'tr' in call.data)
 def training(call):
-    # cf = json.loads(r.get('crossfit'))
+    cf = json.loads(r.get('crossfit'))
     clean_up(call.message.chat.id, call.message.message_id)
     markup = types.InlineKeyboardMarkup()
 
@@ -75,7 +75,7 @@ def training(call):
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('d'))
 def day_handler(call):
-    # cf = json.loads(r.get('crossfit'))
+    cf = json.loads(r.get('crossfit'))
     day = int(call.data[1])
     clean_up(call.message.chat.id, call.message.message_id)
     markup = types.InlineKeyboardMarkup()
@@ -91,7 +91,7 @@ def day_handler(call):
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('p'))
 def part_handler(call):
-    # cf = json.loads(r.get('crossfit'))
+    cf = json.loads(r.get('crossfit'))
     day = int(call.data.split('$')[1][1])
     part = call.data.split('$')[0][1]
 
