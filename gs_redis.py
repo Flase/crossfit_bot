@@ -1,4 +1,5 @@
 import json
+import os
 
 import redis
 
@@ -14,7 +15,7 @@ client = gspread.authorize(credentials)
 sheet = client.open('Дима Р (Персональная программа Кроссфит)')
 ws = sheet.worksheet('ПРОГА')
 
-r = redis.Redis(decode_responses=True)
+r = redis.Redis(host=f'{os.getenv("REDIS_HOST")}', db=15, decode_responses=True)
 cf = json.loads(r.get('crossfit'))
 
 

@@ -10,7 +10,7 @@ from gs_redis import add_results_to_gs, update
 
 # load_dotenv(os.environ['PWD'] + '/.env')
 
-r = redis.Redis(decode_responses=True)
+r = redis.Redis(host=f'{os.getenv("REDIS_HOST")}', db=15, decode_responses=True)
 state_storage = StateRedisStorage(host=f'{os.getenv("REDIS_HOST")}', db=15)
 bot = telebot.TeleBot(token=f'{os.getenv("TOKEN")}', state_storage=state_storage)
 cf = json.loads(r.get('crossfit'))
