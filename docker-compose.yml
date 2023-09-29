@@ -1,61 +1,16 @@
 version: "3.9"
 services:
-  mongo:
-    container_name: mongodb_cf
-    image: mongo
-    restart: always
-    volumes:
-      - mongodb:/data/db
-    networks:
-      my_net:
-        ipv4_address: 172.18.0.23
-
-  redis:
-    container_name: redis_cf
-    image: redis
-    restart: always
-    volumes:
-      - redis:/data
-    networks:
-      my_net:
-        ipv4_address: 172.18.0.8
-    depends_on:
-      - mongo
-
-  celery:
-    container_name: celery_app
-    build: ./celery
-    restart: always
-    networks:
-      - my_net
-    environment:
-      - MONGO_HOST=172.18.0.23
-      - REDIS_HOST=172.18.0.8
-      - TZ=Europe/Moscow
-      - OPENAI_API_KEY=
-    depends_on:
-      - redis
-
   app:
-    container_name: main_cf_app
+    container_name: cf_app
     build: .
     restart: always
     networks:
       - my_net
     environment:
       - TOKEN=6060195927:AAET9G5KPe81tcUJL_yBs671RGQCmrteMaw
-      - MONGO_HOST=172.18.0.23
-      - REDIS_HOST=172.18.0.8
-      - REDIS_PORT=6379
-    depends_on:
-      - mongo
-      - redis
+      - REDIS_HOST=172.18.0.10
 
 networks:
   my_net:
-    name: my_net
     external: true
 
-volumes:
-  mongodb:
-  redis:
