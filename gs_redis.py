@@ -16,7 +16,7 @@ sheet = client.open('Дима Р (Персональная программа К
 ws = sheet.worksheet('ПРОГА')
 
 r = redis.Redis(host=f'{os.getenv("REDIS_HOST")}', db=15, decode_responses=True)
-cf = json.loads(r.get('crossfit'))
+
 
 
 def get_data_with_check(ws: Worksheet, index: str):
