@@ -107,33 +107,36 @@ def part_handler(call):
 
     bot.send_message(chat_id=call.message.chat.id, text=msg, reply_markup=markup)
 
-    @bot.callback_query_handler(func=lambda call: call.data.startswith('r'))
-    def res_handler(call):
-        bot.send_message(call.message.chat.id, 'Записываем ⤵️')
-        bot.set_state(user_id=15569244, state=MyStates.result, chat_id=call.message.chat.id)
-        bot.add_data(user_id=15569244, chat_id=call.message.chat.id,
-                     call_chat_id=call.message.chat.id,
-                     call_message_id=call.message.message_id,
-                     call_data=call.data)
 
-    @bot.message_handler(state=MyStates.result)
-    def state_handler(message):
-        clean_up(message.chat.id, message.message_id - 1)
-        with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
-            data['Результаты'] = message.text
-            state_data = data
-        bot.delete_state(message.from_user.id, message.chat.id)
+@bot.callback_query_handler(func=lambda call: call.data.startswith('r'))
+def res_handler(call):
+    bot.send_message(call.message.chat.id, 'Записываем ⤵️')
+    bot.set_state(user_id=15569244, state=MyStates.result, chat_id=call.message.chat.id)
+    bot.add_data(user_id=15569244, chat_id=call.message.chat.id,
+                 call_chat_id=call.message.chat.id,
+                 call_message_id=call.message.message_id,
+                 call_data=call.data)
 
-        part = state_data['call_data']  # r$p*$d*
-        result = state_data['Результаты']  # текст
 
-        add_results_to_gs(part, result)
-        clean_up(state_data['call_chat_id'], message.message_id)
+@bot.message_handler(state=MyStates.result)
+def state_handler(message):
+    clean_up(message.chat.id, message.message_id - 1)
+    with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
+        data['Результаты'] = message.text
+        state_data = data
+    bot.delete_state(message.from_user.id, message.chat.id)
 
-    # db_get_part(state_data['call_chat_id'], message.message_id, message.chat.username, state_data['call_data'])
-    #
-    # def db_get_part(chat_id, message_id, username, data)
-    # clean_up(chat_id, message_id)
+    part = state_data['call_data']  # r$p*$d*
+    result = state_data['Результаты']  # текст
+
+    add_results_to_gs(part, result)
+    clean_up(state_data['call_chat_id'], message.message_id)
+
+
+# db_get_part(state_data['call_chat_id'], message.message_id, message.chat.username, state_data['call_data'])
+#
+# def db_get_part(chat_id, message_id, username, data)
+# clean_up(chat_id, message_id)
 
 
 if __name__ == '__main__':
