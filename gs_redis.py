@@ -75,5 +75,5 @@ def add_results_to_gs(part, result):
             except IndexError:
                 data = f"{part_name}\n{result}"
             else:
-                data += f'\n{part_name}\n{result}'
+                data += f'\n{part_name}\n{result}]\n'
             ws.update(f'{cell}9', data)
